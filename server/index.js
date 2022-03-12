@@ -35,6 +35,19 @@ app.get('/employees', cors(), (req,res) => {
 	});
 });
 
+app.get('/punches', cors(), (req,res) => {
+	mongodb.MongoClient.connect(MongoDB_URL, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("internal-system");
+		dbo.collection("timeclock").find({ empid: req.body.empid }).toArray(function(err, result) {
+			if (err) throw err;
+			console.log("retrieving punches");
+			res.send(result);
+			db.close();
+		});
+	});
+});
+
 // punch data received from client
 app.post('/punch', cors(), (req,res) => {
     console.log(req.body);
