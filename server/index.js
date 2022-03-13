@@ -21,25 +21,12 @@ exports.app = app;
 exports.mongodb = mongodb;
 exports.MongoDB_URL = MongoDB_URL;
 
-// retrieve employee list
-app.get('/employees', cors(), (req,res) => {
-	mongodb.MongoClient.connect(MongoDB_URL, function(err, db) {
-		if (err) throw err;
-		var dbo = db.db("internal-system");
-		dbo.collection("employees").find({}).toArray(function(err, result) {
-			if (err) throw err;
-			console.log("retrieving employees list");
-			res.send(result);
-			db.close();
-		});
-	});
-});
-
 app.get('/punches', cors(), (req,res) => {
 	mongodb.MongoClient.connect(MongoDB_URL, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db("internal-system");
-		dbo.collection("timeclock").find(/*{ empid: req.body.empid }*/).toArray(function(err, result) {
+		//db.collection.find({ datetime: { $gte: new Date('2015-01-01T00:00:00-04:00'), $lte: new Date('2016-12-31T23:59:59-04:00') } })
+		dbo.collection("timeclock").find({ datetime: { $gte: new Date(req.query.starttime), $lte: new Date(req.query.endtime) } }).toArray(function(err, result) {
 			if (err) throw err;
 			console.log("retrieving punches");
 			res.send(result);
