@@ -39,7 +39,7 @@ app.get('/punches', cors(), (req,res) => {
 	mongodb.MongoClient.connect(MongoDB_URL, function(err, db) {
 		if (err) throw err;
 		var dbo = db.db("internal-system");
-		dbo.collection("timeclock").find({ empid: req.body.empid }).toArray(function(err, result) {
+		dbo.collection("timeclock").find(/*{ empid: req.body.empid }*/).toArray(function(err, result) {
 			if (err) throw err;
 			console.log("retrieving punches");
 			res.send(result);

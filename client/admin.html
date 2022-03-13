@@ -2,17 +2,25 @@
 <head>
     <script src="js/config.js"></script>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="node_modules/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js?v=2"></script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="js/TableStructure.js"></script>
-    <link rel="stylesheet" href="node_modules/datatables/media/css/jquery.dataTables.css">
+    <script src="js/main.js"></script>
     <title>TimeClock Admin</title>
 </head>
 
 <div style="text-align:center;">
 
-    <table cellpadding="0" cellspacing="0" class="dataTable table table-striped" id="example">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" style="text-align:center;">EmpID</th>
+                <th scope="col" style="text-align:center;">Start</th>
+                <th scope="col" style="text-align:center;">End</th>
+                <th scope="col" style="width:25%;text-align:center;">Lunch</th>
+            </tr>
+        </thead>
+        <tbody id="data_list">
+        </tbody>
     </table>
 
 </body>
