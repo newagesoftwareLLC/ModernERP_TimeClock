@@ -11,6 +11,10 @@ $(document).ready(function () {
         console.log("end time changed");
         FetchData();
     });
+    $( '#employee_filter' ).on('input', function() {
+        console.log("employee_filter changed");
+        FetchData();
+    });
 });
 
 function FetchData() {
@@ -28,8 +32,10 @@ function DisplayData(data) {
     select = document.getElementById("data_list");
     var dict = new Object();
     Object.entries(data).forEach(([key, value]) => {
+        if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
         var opt = document.createElement('tr');
-        opt.innerHTML = '<td>' + value.empid + '</td><td>' + new Date(value.datetime).toLocaleTimeString('en-US', { timeZone: 'America/New_York' }); + '</td>';
+        var DBDateTime = new Date(value.datetime);
+        opt.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
         select.appendChild(opt);
     });
 }
