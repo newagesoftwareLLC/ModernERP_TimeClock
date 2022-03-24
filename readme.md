@@ -8,14 +8,17 @@ Install NodeJS and MongoDB
 [Windows] Run win_dev.bat.
 [MacOS] Open Terminal.app in this directory, type chmod +x ./mac_dev.sh then ./mac_dev.sh.
 
-### Setup for Windows Server
+### Setup Client
+Client should be hosted with HTTPS. This will allow you to use PWA to install the app on a tablet or PC. You should use a Chromium based web browser to install it on a PC. For Android devices, visit the web app, tap the three-dot overflow menu in the top-right corner and then select `Add to home screen`. For iOS devices, open Safari, browse to the web app, tap the `Share` button, scroll down and tap `Add to Home Screen`.
+
+### Setup Server for Windows
 1. Install [IISNode](https://github.com/Azure/iisnode) and [NodeJS](https://nodejs.org) on the server.
 2. Run `%programfiles%/iisnode/setupsamples.bat`.
 3. Place `timeclock` folder _(located in server directory)_ into the `%programfiles%/iisnode/www` directory.
 4. Navigate to the message directory, right click on `WINDOWS INSTALL SERVICE.bat` and select Run as administrator.
 5. Check Services for `node timeclock server` to ensure it's running.
 
-### Setup for Linux Server
+### Setup Server for Linux
 1. Install node - https://nodejs.org/en/download/package-manager/
 2. Open terminal, type commands: 
 ```
