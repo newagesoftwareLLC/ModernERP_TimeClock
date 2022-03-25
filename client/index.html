@@ -50,11 +50,11 @@
         </div>
 
         <div style="clear:both;width:100%;margin-top:20px;">
-            <button name="tmplogin" class="btn btn-lg btn-primary" style="padding:30px;font-size:45px;width:350px;" type="button" id="enterbtn">ENTER</button>
+            <button name="tmplogin" class="btn btn-lg btn-primary" style="padding:30px;font-size:45px;width:350px;" type="button" id="enterbtn" disabled>ENTER</button>
         </div>
 
         <div style="height:90px;margin-top:10px;">
-            <div id="punch_notification" class="alert alert-success" style="font-size:32px;">PUNCHED</div>
+            <div id="punch_notification" class="alert alert-success" style="font-size:32px;" disabled>PUNCHED</div>
         </div>
     </div>
 
@@ -62,6 +62,14 @@
         for (let i = 0; i < 10; i++) {
             $('#key' + i).click(function () {
                 $('#empid').val($('#empid').val() + i);
+                console.log("btn press MIN:" + MIN_EMPID_CHARS + " EMP ID CHARS:" + $('#empid').val().length);
+                if ($('#empid').val().length >= MIN_EMPID_CHARS && $('#empid').val().length <= MAX_EMPID_CHARS)
+                {
+                    console.log("MIN REACHED");
+                    $('#enterbtn').prop('disabled', false);
+                } else {
+                    $('#enterbtn').prop('disabled', true);
+                }
             });
         }
         $('#bkspc').click(function () {
@@ -72,7 +80,7 @@
                     url: APIURL + "/punch",
                     type: 'POST',
                     data: { empid: $('#empid').val() },
-                    success: function() { $('#punch_notification').html("PUNCHED"); $("#punch_notification").show(); setTimeout(function() { $("#punch_notification").fadeOut(); }, 3000); $('#empid').val(""); },
+                    success: function() { $('#punch_notification').html("PUNCHED"); $("#punch_notification").show(); setTimeout(function() { $("#punch_notification").fadeOut(); }, 3000); $('#empid').val(""); $('#empid').focus(); },
                     error: function() { $('#punch_notification').html("ERROR!"); $("#punch_notification").show(); setTimeout(function() { $("#punch_notification").fadeOut(); }, 3000); },
                     autoClose: true
                 });
