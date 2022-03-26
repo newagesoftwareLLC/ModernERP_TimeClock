@@ -4,6 +4,7 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="js/index.js"></script>
     <title>TimeClock Clock</title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <style>
@@ -59,39 +60,6 @@
     </div>
 
     <script>
-        for (let i = 0; i < 10; i++) {
-            $('#key' + i).click(function () {
-                $('#empid').val($('#empid').val() + i);
-                console.log("btn press MIN:" + MIN_EMPID_CHARS + " EMP ID CHARS:" + $('#empid').val().length);
-                if ($('#empid').val().length >= MIN_EMPID_CHARS && $('#empid').val().length <= MAX_EMPID_CHARS)
-                {
-                    console.log("MIN REACHED");
-                    $('#enterbtn').prop('disabled', false);
-                } else {
-                    $('#enterbtn').prop('disabled', true);
-                }
-            });
-        }
-        $('#bkspc').click(function () {
-            $('#empid').val($('#empid').val().slice(0, -1));
-        });
-        $('#enterbtn').click(function () {
-            $.ajax({
-                    url: APIURL + "/punch",
-                    type: 'POST',
-                    data: { empid: $('#empid').val() },
-                    success: function() { $('#punch_notification').html("PUNCHED"); $("#punch_notification").show(); setTimeout(function() { $("#punch_notification").fadeOut(); }, 3000); $('#empid').val(""); $('#empid').focus(); },
-                    error: function() { $('#punch_notification').html("ERROR!"); $("#punch_notification").show(); setTimeout(function() { $("#punch_notification").fadeOut(); }, 3000); },
-                    autoClose: true
-                });
-        });
-        $("#empid").on('keyup', function (e) {
-            if (e.keyCode == 13) {
-                $("#enterbtn").click();
-            }
-        });
-        $("#punch_notification").hide();
-
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
                     navigator.serviceWorker.register("/pwabuilder-sw.js").then((reg) => {

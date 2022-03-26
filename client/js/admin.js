@@ -30,7 +30,6 @@ function FetchData() {
 function DisplayData(data) {
     document.getElementById("data_list").innerHTML = ""; // clear old data
     select = document.getElementById("data_list");
-    var dict = new Object();
     Object.entries(data).forEach(([key, value]) => {
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
         var opt = document.createElement('tr');

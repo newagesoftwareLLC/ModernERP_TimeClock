@@ -27,7 +27,10 @@ app.get('/punches', cors(), (req,res) => {
 		var dbo = db.db("internal-system");
 		console.log("received starttime=" + new Date(req.query.starttime + "T00:00:00Z") + " endtime=" + (new Date(req.query.endtime + "T04:59:59Z") + 1)); // test for night shift
 		//db.collection.find({ datetime: { $gte: new Date('2015-01-01T00:00:00-04:00'), $lte: new Date('2016-12-31T23:59:59-04:00') } })
-		dbo.collection("timeclock").find({ datetime: { $gte: new Date(req.query.starttime + "T00:00:00Z"), $lte: new Date(req.query.endtime + "T23:59:59Z") } }).toArray(function(err, result) {
+		dbo.collection("timeclock").find({ 
+			datetime: { $gte: new Date(req.query.starttime + "T00:00:00Z"), 
+			$lte: new Date(req.query.endtime + "T23:59:59Z") } 
+		}).sort({ empid: 1, datetime: 1 }).toArray(function(err, result) {
 			if (err) throw err;
 			console.log("retrieving punches");
 			res.send(result);
