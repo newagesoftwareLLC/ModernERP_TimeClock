@@ -41,6 +41,11 @@ $(document).ready(function(){
             });
     });
     $("#empid").on('keyup', function (e) {
+        if ($('#empid').val().length >= MIN_EMPID_CHARS && $('#empid').val().length <= MAX_EMPID_CHARS)
+            {
+                console.log("MIN REACHED");
+                $('#enterbtn').prop('disabled', false);
+            }
         if (e.keyCode == 13) {
             $("#enterbtn").click();
         }

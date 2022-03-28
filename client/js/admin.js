@@ -28,13 +28,24 @@ function FetchData() {
 }
 
 function DisplayData(data) {
+    var empid = 0;
+    var hours = new Date();
     document.getElementById("data_list").innerHTML = ""; // clear old data
     select = document.getElementById("data_list");
     Object.entries(data).forEach(([key, value]) => {
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
         var opt = document.createElement('tr');
         var DBDateTime = new Date(value.datetime);
-        opt.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
-        select.appendChild(opt);
+        if (empid != value.empid){
+            if (empid != 0) {
+                hours += value.datetime;
+                opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL: ' + hours.getHours() + '</td>'; // FIX THIS
+                select.appendChild(opt);
+            }
+            empid = value.empid;
+        }
+        var opt2 = document.createElement('tr');
+        opt2.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
+        select.appendChild(opt2);
     });
 }
