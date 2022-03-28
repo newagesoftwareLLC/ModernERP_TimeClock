@@ -29,7 +29,8 @@ function FetchData() {
 
 function DisplayData(data) {
     var empid = 0;
-    var hours = new Date();
+    var StoredDateTime = new Date();
+    var hours = 0;
     document.getElementById("data_list").innerHTML = ""; // clear old data
     select = document.getElementById("data_list");
     Object.entries(data).forEach(([key, value]) => {
@@ -38,8 +39,12 @@ function DisplayData(data) {
         var DBDateTime = new Date(value.datetime);
         if (empid != value.empid){
             if (empid != 0) {
-                hours += value.datetime;
-                opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL: ' + hours.getHours() + '</td>'; // FIX THIS
+                if (StoredDateTime == new Date()){
+                    StoredDateTime = new Date(value.datetime);
+                } else {
+                    hours = Math.abs(new Date(value.datetime).getHours()-StoredDateTime.getHours());
+                }
+                opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL: ' + hours + '</td>'; // FIX THIS
                 select.appendChild(opt);
             }
             empid = value.empid;
