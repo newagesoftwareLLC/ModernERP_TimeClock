@@ -79,6 +79,7 @@ app.post('/punch', cors(), (req,res) => {
 				if(!err){
 						var report = {
 							empid: req.body.empid,
+							punchin: req.body.punchin,
 							datetime: new Date()
 						};
 						dbo.collection("timeclock").insertOne(report, function(err, res2) {
