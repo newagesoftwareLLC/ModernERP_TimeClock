@@ -47,7 +47,7 @@ function DataProcessed(data) {
     var PunchIn = true;
 
     Object.entries(data).forEach(([key, value]) => {
-        if (!value.empid.includes("111")) { return; }
+        if (!value.empid.includes($('#empid').val())) { return; }
         i++;
     });
 

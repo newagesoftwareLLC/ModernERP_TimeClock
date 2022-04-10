@@ -40,7 +40,6 @@ function DisplayData(data) {
     var i = 1;
     Object.entries(data).forEach(([key, value]) => {
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
-        var opt = document.createElement('tr');
         var DBDateTime = new Date(value.datetime);
 
         if (empid == 0) empid = value.empid; // set our initial empid
@@ -60,8 +59,10 @@ function DisplayData(data) {
         }
         
         if (empid != value.empid){
-            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[value.empid] + 'h ' + minutes[value.empid] + 'm ' + seconds[value.empid] + 's</td>';
+            var opt = document.createElement('tr');
+            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[empid] + 'h ' + minutes[empid] + 'm ' + seconds[empid] + 's</td>'; // print old empid data before new ID came in
             select.appendChild(opt);
+            //console.log("empid change OLD:" + empid + " NEW:" + value.empid);
         }
         
         var opt2 = document.createElement('tr');
@@ -69,8 +70,9 @@ function DisplayData(data) {
         select.appendChild(opt2);
 
         if (i == TotalPunches){
-            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[value.empid] + 'h ' + minutes[value.empid] + 'm ' + seconds[value.empid] + 's</td>';
-            select.appendChild(opt);
+            var opt3 = document.createElement('tr');
+            opt3.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[value.empid] + 'h ' + minutes[value.empid] + 'm ' + seconds[value.empid] + 's</td>';
+            select.appendChild(opt3);
         }
         
         empid = value.empid;
