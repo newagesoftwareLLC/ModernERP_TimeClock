@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    $('#starttime').val(new Date().toISOString().substr(0, 10));
-    $('#endtime').val(new Date().toISOString().substr(0, 10));
+    $('#starttime').val(new Date().toLocaleDateString('fr-CA', { timeZone: 'America/New_York' }));
+    $('#endtime').val(new Date().toLocaleDateString('fr-CA', { timeZone: 'America/New_York' }));
     FetchData();
 
     $( '#starttime' ).change(function() {
@@ -41,6 +41,8 @@ function DisplayData(data) {
     Object.entries(data).forEach(([key, value]) => {
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
         var DBDateTime = new Date(value.datetime);
+
+        //console.log("empid:" + value.empid + " punchin:" + value.punchin + " timedate:" + value.datetime);
 
         if (empid == 0) empid = value.empid; // set our initial empid
         if (hours[value.empid] === undefined) {
