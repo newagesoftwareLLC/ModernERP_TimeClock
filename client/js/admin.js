@@ -45,24 +45,21 @@ function DisplayData(data) {
         //console.log("empid:" + value.empid + " punchin:" + value.punchin + " timedate:" + value.datetime);
 
         if (empid == 0) empid = value.empid; // set our initial empid
-        if (hours[value.empid] === undefined) {
-            hours[value.empid] = 0;
-            minutes[value.empid] = 0;
-            seconds[value.empid] = 0;
-        }
+        if (seconds[value.empid] === undefined) seconds[value.empid] = 0;
 
         if (value.punchin == "true") {
             StoredDateTime[value.empid] = new Date(value.datetime);
+            console.log("StoredDT:" + StoredDateTime[value.empid]);
         }
         else {
-            hours[value.empid] += Math.abs(new Date(value.datetime).getHours()-StoredDateTime[value.empid].getHours());
-            minutes[value.empid] += Math.abs(new Date(value.datetime).getMinutes()-StoredDateTime[value.empid].getMinutes());
+            console.log("datetime diff:" + new Date(value.datetime));
             seconds[value.empid] += Math.abs(new Date(value.datetime).getSeconds()-StoredDateTime[value.empid].getSeconds());
+            console.log(seconds[value.empid] + "s");
         }
         
         if (empid != value.empid){
             var opt = document.createElement('tr');
-            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[empid] + 'h ' + minutes[empid] + 'm ' + seconds[empid] + 's</td>'; // print old empid data before new ID came in
+            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + seconds[empid] + 's</td>'; // print old empid data before new ID came in
             select.appendChild(opt);
             //console.log("empid change OLD:" + empid + " NEW:" + value.empid);
         }
@@ -73,7 +70,7 @@ function DisplayData(data) {
 
         if (i == TotalPunches){
             var opt3 = document.createElement('tr');
-            opt3.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + hours[value.empid] + 'h ' + minutes[value.empid] + 'm ' + seconds[value.empid] + 's</td>';
+            opt3.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + (Math.floor(seconds[value.empid] / 60) * 60) + 'h ' + Math.floor(seconds[value.empid] / 60) + 'm ' + seconds[value.empid] + 's</td>';
             select.appendChild(opt3);
         }
         
