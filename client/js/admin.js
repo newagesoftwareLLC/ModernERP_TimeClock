@@ -27,11 +27,18 @@ function FetchData() {
     });
 }
 
+function secondsToTime(e){
+    var h = Math.floor(e / 3600).toString().padStart(2,'0'),
+        m = Math.floor(e % 3600 / 60).toString().padStart(2,'0'),
+        s = Math.floor(e % 60).toString().padStart(2,'0');
+    
+    return h + 'h ' + m + 'm ' + s + 's';
+    //return `${h}:${m}:${s}`;
+}
+
 function DisplayData(data) {
     var empid = 0;
     var StoredDateTime = [];
-    var hours = [];
-    var minutes = [];
     var seconds = [];
     var TotalPunches = 0;
     document.getElementById("data_list").innerHTML = ""; // clear old data
@@ -53,13 +60,13 @@ function DisplayData(data) {
         }
         else {
             console.log("datetime diff:" + new Date(value.datetime));
-            seconds[value.empid] += Math.abs(new Date(value.datetime).getSeconds()-StoredDateTime[value.empid].getSeconds());
+            seconds[value.empid] += Math.abs((new Date(value.datetime).getTime() / 1000)-(StoredDateTime[value.empid].getTime() / 1000));
             console.log(seconds[value.empid] + "s");
         }
         
         if (empid != value.empid){
             var opt = document.createElement('tr');
-            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + seconds[empid] + 's</td>'; // print old empid data before new ID came in
+            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + secondsToTime(seconds[empid]) + '</td>';
             select.appendChild(opt);
             //console.log("empid change OLD:" + empid + " NEW:" + value.empid);
         }
@@ -70,7 +77,7 @@ function DisplayData(data) {
 
         if (i == TotalPunches){
             var opt3 = document.createElement('tr');
-            opt3.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + (Math.floor(seconds[value.empid] / 60) * 60) + 'h ' + Math.floor(seconds[value.empid] / 60) + 'm ' + seconds[value.empid] + 's</td>';
+            opt3.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + secondsToTime(seconds[value.empid]) + '</td>';
             select.appendChild(opt3);
         }
         
