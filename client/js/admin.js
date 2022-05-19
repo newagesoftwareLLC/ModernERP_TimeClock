@@ -46,7 +46,6 @@ function DisplayData(data) {
     TotalPunches = Object.keys(data).length;
     var i = 1;
     Object.entries(data).forEach(([key, value]) => {
-        if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { return; }
         var DBDateTime = new Date(value.datetime);
 
         //console.log("empid:" + value.empid + " punchin:" + value.punchin + " timedate:" + value.datetime);
@@ -64,12 +63,14 @@ function DisplayData(data) {
             console.log(seconds[value.empid] + "s");
         }
         
-        if (empid != value.empid){
+        if (empid != value.empid && empid.includes(employee_filter.value)){
             var opt = document.createElement('tr');
             opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + secondsToTime(seconds[empid]) + '</td>';
             select.appendChild(opt);
             //console.log("empid change OLD:" + empid + " NEW:" + value.empid);
         }
+
+        if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { empid = value.empid; return; }
         
         var opt2 = document.createElement('tr');
         opt2.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
