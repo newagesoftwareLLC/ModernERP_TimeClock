@@ -17,13 +17,28 @@ $(document).ready(function () {
     });
 });
 
-function FetchData() {
-    console.log("starttime=" + document.getElementById("starttime").value + " endtime=" + document.getElementById("endtime").value);
+var EmpInfo = null;
+
+function DisplayEmployees(data) {
+    Object.entries(data).forEach(([key, value]) => {
+        EmpInfo[value.id].push({ name: value.name });
+    });
+
     $.ajax({
         url: APIURL + "/punches?starttime=" + document.getElementById("starttime").value + "&endtime=" + document.getElementById("endtime").value,
         type: 'GET',
         dataType: "json",
         success: DisplayData
+    });
+}
+
+function FetchData() {
+    console.log("starttime=" + document.getElementById("starttime").value + " endtime=" + document.getElementById("endtime").value);
+    $.ajax({
+        url: APIURL + "/employees",
+        type: 'GET',
+        dataType: "json",
+        success: DisplayEmployees
     });
 }
 
@@ -72,7 +87,7 @@ function DisplayData(data) {
 
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { empid = value.empid; return; }
         
-        var opt2 = document.createElement('tr');
+        var opt2 = document.createElement('tr'); // TODO: Get employee name 
         opt2.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
         select.appendChild(opt2);
 

@@ -39,6 +39,19 @@ app.get('/punches', cors(), (req,res) => {
 	});
 });
 
+app.get('/employees', cors(), (req,res) => {
+	mongodb.MongoClient.connect(MongoDB_URL, function(err, db) {
+		if (err) throw err;
+		var dbo = db.db("internal-system");
+		dbo.collection("employees").find({}).toArray(function(err, result) {
+			if (err) throw err;
+			console.log("retrieving employees");
+			res.send(result);
+			db.close();
+		});
+	}); 
+});
+
 // punch data received from client
 app.post('/punch', cors(), (req,res) => {
     console.log(req.body);

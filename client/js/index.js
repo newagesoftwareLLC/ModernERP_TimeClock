@@ -1,3 +1,5 @@
+var EmpInfo = null;
+
 $(document).ready(function(){
     for (let i = 0; i < 10; i++) {
         $('#key' + i).click(function () {
@@ -16,8 +18,12 @@ $(document).ready(function(){
         $('#empid').val($('#empid').val().slice(0, -1));
     });
     $('#enterbtn').click(function () {
-        ProcessData();
-        
+        $.ajax({
+            url: APIURL + "/employees",
+            type: 'GET',
+            dataType: "json",
+            success: DisplayEmployees
+        });
     });
     $("#empid").on('keyup', function (e) {
         if ($('#empid').val().length >= MIN_EMPID_CHARS && $('#empid').val().length <= MAX_EMPID_CHARS)
@@ -32,17 +38,25 @@ $(document).ready(function(){
     $("#punch_notification").hide();
 });
 
+function DisplayEmployees(data) {
+    Object.entries(data).forEach(([key, value]) => {
+        EmpInfo[value.id].push({ name: value.name });
+    });
+
+    ProcessData();
+}
+
 function ProcessData() {
     //console.log("starttime=" + document.getElementById("starttime").value + " endtime=" + document.getElementById("endtime").value);
     $.ajax({
         url: APIURL + "/punches?starttime=" + new Date().toISOString().substr(0, 10) + "&endtime=" + new Date().toISOString().substr(0, 10),
         type: 'GET',
         dataType: "json",
-        success: DataProcessed
+        success: PunchDataProcessed
     });
 }
 
-function DataProcessed(data) {
+function PunchDataProcessed(data) {
     var i = 0;
     var PunchIn = true;
 
