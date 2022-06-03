@@ -17,11 +17,12 @@ $(document).ready(function () {
     });
 });
 
-var EmpInfo = null;
+var EmpInfo = {};
 
 function DisplayEmployees(data) {
     Object.entries(data).forEach(([key, value]) => {
-        EmpInfo[value.id].push({ name: value.name });
+        console.log("adding emp id:" + value.id + " name:" + value.name);
+        EmpInfo[value.id] = { name: value.name };
     });
 
     $.ajax({
@@ -52,6 +53,7 @@ function secondsToTime(e){
 }
 
 function DisplayData(data) {
+    console.log(EmpInfo);
     var empid = 0;
     var StoredDateTime = [];
     var seconds = [];
@@ -87,8 +89,11 @@ function DisplayData(data) {
 
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { empid = value.empid; return; }
         
-        var opt2 = document.createElement('tr'); // TODO: Get employee name 
-        opt2.innerHTML = '<td>' + value.empid + '</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
+        var opt2 = document.createElement('tr'); // TODO: Get employee name
+        var EmpName = "N/A";
+        if (EmpInfo[value.empid] !== undefined)
+            EmpName = EmpInfo[value.empid].name;
+        opt2.innerHTML = '<td>' + EmpName + " (" + value.empid + ')</td><td>' + DBDateTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York' }) + '</td><td>' + DBDateTime.toLocaleDateString() + '</td>';
         select.appendChild(opt2);
 
         if (i == TotalPunches){
