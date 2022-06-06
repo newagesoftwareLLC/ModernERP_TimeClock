@@ -82,14 +82,14 @@ function DisplayData(data) {
         
         if (empid != value.empid && empid.includes(employee_filter.value)){
             var opt = document.createElement('tr');
-            opt.innerHTML = '<td><hr></td><td><hr></td><td>TOTAL ' + secondsToTime(seconds[empid]) + '</td>';
+            opt.innerHTML = '<td><hr></td><td><hr></td><td class="pagebreak">TOTAL ' + secondsToTime(seconds[empid]) + '</td>';
             select.appendChild(opt);
             //console.log("empid change OLD:" + empid + " NEW:" + value.empid);
         }
 
         if (!value.empid.includes(employee_filter.value) && employee_filter.value != "") { empid = value.empid; return; }
         
-        var opt2 = document.createElement('tr'); // TODO: Get employee name
+        var opt2 = document.createElement('tr'); 
         var EmpName = "N/A";
         if (EmpInfo[value.empid] !== undefined)
             EmpName = EmpInfo[value.empid].name;
