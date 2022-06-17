@@ -1,7 +1,9 @@
 ## About
-Client is a web app that you type in your employee ID number. Recommended to place on a tablet and mount on the wall.
+Time clock software that runs on a tablet, meant for employees to walk up to and type in their employee ID number to punch in or out. Managers can then log into the admin area and see total hours between dates.
 
-Server is a server that sends a Rest API and receives data to communicate with MongoDB.
+`Client`: is a web app that you type in your employee ID number. Recommended to place on a tablet and mount on the wall. Also contains the admin area where management can view hours worked.
+
+`Server`: is a server that sends a Rest API and receives data to communicate with MongoDB.
 
 ## Local Development Setup
 Install NodeJS and MongoDB
